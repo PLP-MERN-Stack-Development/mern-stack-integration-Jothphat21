@@ -1,3 +1,96 @@
+# MERN Blog — Integration Assignment
+
+Concise README for the MERN blog project used in Week 4. This repository contains a React front-end (`client`) and an Express + MongoDB back-end (`server`). The app demonstrates authentication, CRUD operations for posts, categories, and basic file uploads.
+
+## Contents
+
+- `client/` — React (Vite) front-end
+- `server/` — Express API with Mongoose models
+- `Week4-Assignment.md` — assignment instructions and tasks
+
+## Prerequisites
+
+- Node.js (v16+ recommended)
+- npm or yarn
+- MongoDB (local or Atlas)
+- Optional: `nodemon` for server development
+
+## Quick Setup
+
+1. Clone the repository and open the project root:
+
+```pwsh
+git clone <repo-url>
+cd mern-stack-integration-Jothphat21
+```
+
+2. Create a `.env` in the `server/` folder with the following variables:
+
+```
+MONGO_URI=<your-mongo-connection-string>
+JWT_SECRET=<a-strong-secret>
+PORT=5000
+NODE_ENV=development
+```
+
+3. Install dependencies
+
+```pwsh
+# from project root
+cd server
+npm install
+cd ../client
+npm install
+```
+
+4. Run the app
+
+```pwsh
+# Start server (dev)
+cd server
+npm run dev
+
+# In a new terminal: start client
+cd ../client
+npm run dev
+```
+
+The React app (Vite) should open at `http://localhost:5173` by default and the API runs at `http://localhost:5000/api`.
+
+## Environment & API
+
+- API base path: `/api`
+- Auth endpoints: `/api/auth/register`, `/api/auth/login`
+- Posts: `/api/posts`
+- Categories: `/api/categories`
+
+If the client fails to reach the server, set `VITE_API_URL` in `client/.env` or ensure `client/src/services/api.js` uses the correct `baseURL`.
+
+## Common Troubleshooting
+
+- 400 responses during registration usually mean: missing fields or the email already exists in the database. Inspect the response body in the browser Network tab for the `message` field.
+- `Uncaught (in promise) AxiosError`: wrap API calls in `try/catch` on the client and read `error.response.data.message`.
+- If you see server errors (500), check the server terminal for stack traces and confirm `MONGO_URI` and `JWT_SECRET` are set.
+
+## Useful Commands
+
+- Server (dev): `cd server && npm run dev`
+- Server (prod): `cd server && npm start`
+- Client: `cd client && npm run dev`
+
+## Notes for Grading / Submission
+
+- Ensure your local changes are committed and pushed to the GitHub Classroom repository linked to the assignment.
+- Include screenshots and any additional notes in the repository if required by the assignment brief.
+
+## Resources
+
+- MongoDB: https://docs.mongodb.com/
+- Express: https://expressjs.com/
+- React: https://react.dev/
+- Mongoose: https://mongoosejs.com/docs/
+
+If you want, I can also add a short section with example `.env` values, or update the `client` code to show server errors in the UI. Which would you like next?
 # MERN Stack Integration Assignment
 
 This assignment focuses on building a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application that demonstrates seamless integration between front-end and back-end components.

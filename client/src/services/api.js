@@ -13,7 +13,9 @@ const api = axios.create({
 // Add request interceptor for authentication
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = user?.token;
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -30,7 +32,6 @@ api.interceptors.response.use(
   (error) => {
     // Handle authentication errors
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
     }
@@ -56,7 +57,7 @@ export const postService = {
     return response.data;
   },
 
-  // Create a new post
+  // Create a new post (admin only)
   createPost: async (postData) => {
     const response = await api.post('/posts', postData);
     return response.data;
@@ -95,7 +96,7 @@ export const categoryService = {
     return response.data;
   },
 
-  // Create a new category
+  // Create a new category (admin only)
   createCategory: async (categoryData) => {
     const response = await api.post('/categories', categoryData);
     return response.data;
@@ -113,16 +114,24 @@ export const authService = {
   // Login user
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials);
+
+    // Save user object containing id, role and token 
     if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
+        const user = {
+           id: response.data.user._id,
+           name: response.data.user.name,
+           role: response.data.user.role,
+           token: response.data.token
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+  }
+
     return response.data;
   },
 
   // Logout user
   logout: () => {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
   },
 
